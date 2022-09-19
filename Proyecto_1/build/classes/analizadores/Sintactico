@@ -1,0 +1,295 @@
+package analizadores; 
+import java_cup.runtime.*;
+import java.util.LinkedList;
+import arbol.instruccion;
+import arbol.Operacion;
+import arbol.Variable;
+import arbol.Declaracion;
+
+
+
+parser code 
+{:
+  
+
+    public LinkedList<instruccion> arbol;
+
+    public LinkedList<instruccion> getArbol(){
+    return arbol;
+    }
+
+
+  public void syntax_error(Symbol s){ 
+            System.err.println("Error Sintáctico en la Línea " + (s.left) +" Columna "+s.right+ ". No se esperaba este componente: " +s.value+"."); 
+    } 
+   
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+            System.err.println("Error síntactico irrecuperable en la Línea " + (s.left)+ " Columna "+s.right+". Componente " + s.value + " no reconocido."); 
+    }  
+:}
+
+terminal String IDENTIFICADOR;
+terminal String CHAR;
+terminal String ENTERO;
+terminal String DOUBLE;
+terminal String COMENTARIO;
+terminal String COMENTMULTI;
+terminal String CADENACOMILLASDOBLES;
+terminal String STRING;
+terminal String PR_NUM;
+terminal String PR_CAD;
+terminal String PR_BOOL;
+terminal String PR_CAR;
+terminal String PR_SUMA;
+terminal String PR_RESTA;
+terminal String PR_MULT;
+terminal String PR_DIV;
+terminal String PR_POT;
+terminal String PR_MOD;
+terminal String PR_PARABRE;
+terminal String PR_PARCIERRA;
+terminal String PR_MAYOR;
+terminal String PR_MENOR;
+terminal String PR_MAYOROIGUAL;
+terminal String PR_MENOROIGUAL;
+terminal String PR_IGUAL;
+terminal String PR_DIFERENTE;
+terminal String PR_OR;
+terminal String PR_AND;
+terminal String PR_NOT;
+terminal String PR_INICIO;
+terminal String PR_FIN;
+terminal String PR_INGRESAR;
+terminal String PR_CONVALOR;
+terminal String PR_SI;
+terminal String PR_ENTONCES;
+terminal String PR_DELOCONTRARIO;
+terminal String PR_OSI;
+terminal String PR_FINSI;
+terminal String PR_SEGUN;
+terminal String PR_HACER;
+terminal String PR_FINSEGUN;
+terminal String PR_PARA;
+terminal String PR_HASTA;
+terminal String PR_FINPARA;
+terminal String PR_CON;
+terminal String PR_COMO;
+terminal String PR_INCREMENTAL;
+terminal String PR_MIENTRAS;
+terminal String PR_FINMIENTRAS;
+terminal String PR_REPETIR;
+terminal String PR_HASTAQUE;
+terminal String PR_RETORNAR;
+terminal String PR_METODO;
+terminal String PR_FINMETODO;
+terminal String PR_CONPARAMETROS;
+terminal String PR_FUNCION;
+terminal String PR_FINFUNCION;
+terminal String PR_EJECUTAR;
+terminal String PR_IMPRIMIR;
+terminal String PR_IMPRIMIRLN;
+terminal String PR_VERDADERO;
+terminal String PR_FALSO;
+terminal String D_DIGITO;
+terminal String STRINGS;
+terminal String S_COMA;
+terminal String S_MAYORQ;
+terminal String S_PUNTOYCOMA;
+terminal String S_INTERROGACIONABRE;
+terminal String S_INTERROGACIONCIERRA;
+terminal String S_DOLLAR;
+terminal String S_LLAVEABRE;
+terminal String S_LLAVECIERRA;
+
+
+non terminal inicio;
+non terminal instrucciones;
+non terminal instruccion;
+non terminal asignacion;
+non terminal expresion_num;
+non terminal declaracion;
+non terminal listaVariable;
+non terminal expresion_logica;
+non terminal expresion_char;
+non terminal condicional_si;
+non terminal o_si;
+non terminal de_lo_contrario;
+non terminal condicional_segun;
+non terminal valor;
+non terminal opciones;
+non terminal variables;
+non terminal ciclopara;
+non terminal incremental;
+non terminal ciclomientras;
+non terminal ciclorepetirhasta;
+non terminal retorno;
+non terminal metodo;
+non terminal listaparametros;
+non terminal tipodato;
+
+
+precedence left PR_MOD;
+precedence left PR_SUMA, PR_RESTA;
+precedence left PR_MULT,PR_DIV;
+precedence left PR_POT;
+precedence left PR_AND, PR_OR;
+
+
+
+
+start with inicio;
+
+inicio ::= PR_INICIO instrucciones:a PR_FIN;
+
+ instrucciones::= 
+    instrucciones:a instruccion:b 
+    |instruccion:a 
+                                           
+;
+
+    instruccion ::= 
+    declaracion:a 
+    |asignacion:a
+    |condicional_si:a
+    |condicional_segun:a
+    |ciclopara:a
+    |ciclomientras:a
+    |ciclorepetirhasta:a
+    |retorno:a
+    |metodo:a
+;
+
+
+declaracion ::=
+    PR_INGRESAR listaVariable:a PR_COMO PR_CAD PR_CONVALOR STRING:b S_PUNTOYCOMA {:System.out.println("declaracion:CADENA");:}
+ |  PR_INGRESAR listaVariable:a PR_COMO PR_NUM PR_CONVALOR expresion_num:b S_PUNTOYCOMA  {:System.out.println("declaracion:NUMERICA");:}
+ |  PR_INGRESAR listaVariable:a PR_COMO PR_BOOL PR_CONVALOR expresion_logica:b S_PUNTOYCOMA {:System.out.println("declaracion:LOGICA");:}
+ |  PR_INGRESAR listaVariable:a PR_COMO PR_CAR PR_CONVALOR expresion_char:b S_PUNTOYCOMA {:System.out.println("declaracion:CARACTER");:}
+;
+
+expresion_num::=
+    expresion_num:a PR_SUMA expresion_num: b
+    |expresion_num:a PR_RESTA expresion_num:b
+    |expresion_num:a PR_MULT expresion_num:b
+    |PR_RESTA expresion_num:a
+    |expresion_num:a PR_DIV expresion_num:b
+    |expresion_num:a PR_POT expresion_num:b
+    |PR_PARABRE expresion_num:a PR_PARCIERRA 
+    |ENTERO:a 
+    |DOUBLE:a
+;
+
+
+asignacion ::= 
+    listaVariable:a PR_RESTA S_MAYORQ expresion_num:b S_PUNTOYCOMA {:System.out.println("declaracion:Asignacion");:}
+;
+
+listaVariable ::=
+    listaVariable:a S_COMA IDENTIFICADOR:b
+    |IDENTIFICADOR:a 
+;
+
+expresion_logica::=
+    PR_VERDADERO:a
+    |PR_FALSO:a
+    |expresion_num:a PR_MAYOR expresion_num: b
+    |expresion_num:a PR_MENOR expresion_num:b
+    |expresion_num:a PR_MAYOROIGUAL expresion_num:b
+    |expresion_num:a PR_MENOROIGUAL expresion_num:b
+    |expresion_num:a PR_IGUAL expresion_num:b
+    |expresion_num:a PR_DIFERENTE expresion_num:b
+    |expresion_logica:a PR_OR expresion_logica:b
+    |expresion_logica:a PR_AND expresion_logica:b
+    |PR_NOT expresion_logica:a 
+;
+
+
+expresion_char::=
+       CHAR:a 
+;
+
+
+condicional_si ::=
+    PR_SI expresion_logica:a PR_ENTONCES instrucciones:b o_si de_lo_contrario PR_FINSI   {:System.out.println("Trae ambos");:}
+    |PR_SI expresion_logica:a PR_ENTONCES instrucciones:b de_lo_contrario PR_FINSI       {:System.out.println("de lo contrario");:}
+    |PR_SI expresion_logica:a PR_ENTONCES instrucciones:b o_si PR_FINSI                  {:System.out.println("o si ");:}
+    |PR_SI expresion_logica:a PR_ENTONCES instrucciones:b PR_FINSI                      {:System.out.println("ninguno");:}
+;
+
+o_si ::=
+    PR_OSI expresion_logica:a PR_ENTONCES instrucciones:b o_si:c 
+    |PR_OSI expresion_logica:a PR_ENTONCES instrucciones:b  
+;
+
+
+de_lo_contrario ::=
+    PR_DELOCONTRARIO instrucciones:a 
+;
+
+
+condicional_segun::=
+    PR_SEGUN valor:a PR_HACER opciones:b PR_DELOCONTRARIO PR_ENTONCES instrucciones:c PR_FINSEGUN
+;
+
+valor::=
+       variables:a
+       |expresion_num:a
+;
+
+variables::=
+    IDENTIFICADOR:a
+;
+
+opciones::=
+    S_INTERROGACIONABRE valor:a S_INTERROGACIONCIERRA PR_ENTONCES instrucciones:b opciones
+    |S_INTERROGACIONABRE valor:a S_INTERROGACIONCIERRA PR_ENTONCES instrucciones:b
+;
+
+ciclopara::=
+    PR_PARA variables:a PR_RESTA S_MAYORQ valor:b  PR_HASTA valor:c incremental:d PR_HACER instrucciones:e PR_FINPARA 
+    |PR_PARA variables:a PR_RESTA S_MAYORQ valor:b  PR_HASTA valor:c PR_HACER instrucciones:d PR_FINPARA 
+    |PR_PARA variables:a PR_RESTA S_MAYORQ valor:b  PR_HASTA valor:c incremental:d PR_HACER PR_FINPARA 
+    |PR_PARA variables:a PR_RESTA S_MAYORQ valor:b  PR_HASTA valor:c PR_HACER PR_FINPARA 
+
+;
+
+incremental::=
+    PR_CON PR_INCREMENTAL valor
+;
+
+ciclomientras::=
+    PR_MIENTRAS expresion_logica:a PR_HACER instrucciones:b PR_FINMIENTRAS
+    |PR_MIENTRAS expresion_logica:a PR_HACER PR_FINMIENTRAS
+;
+
+ciclorepetirhasta::=
+    PR_REPETIR instrucciones:a PR_HASTAQUE expresion_logica:b
+    |PR_REPETIR PR_HASTAQUE expresion_logica:a
+;
+
+
+retorno::=
+    PR_RETORNAR STRING S_PUNTOYCOMA   {:System.out.println("Retorno String");:}
+    |PR_RETORNAR expresion_num S_PUNTOYCOMA {:System.out.println("Retorno numerico");:}
+    |PR_RETORNAR expresion_logica S_PUNTOYCOMA {:System.out.println("Retorno logico");:}
+    |PR_RETORNAR expresion_char S_PUNTOYCOMA   {:System.out.println("Retorno Char");:}
+;
+
+
+metodo::=
+    PR_METODO variables:a intrucciones:b PR_FINMETODO
+    |PR_METODO variables:a PR_CONPARAMETROS PR_PARABRE listaparametros:b PR_PARCIERRA intrucciones:c PR_FINMETODO
+;
+
+listaparametros::=
+    variables:a tipodato:b listaparametros:c
+    |PR_COMA variables:a tipodato:b listaparametros:c
+;
+
+tipodato::=
+    STRING
+    |CHAR
+    |ENTERO
+    |DOUBLE
+;

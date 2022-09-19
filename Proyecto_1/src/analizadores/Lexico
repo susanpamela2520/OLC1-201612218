@@ -1,0 +1,110 @@
+package analizadores;
+import java_cup.runtime.Symbol;
+
+%%
+%class Lexico
+%public 
+%line
+%char
+%cup
+%unicode
+%ignorecase
+
+%init{
+    yyline = 1;        
+    yycolumn = 1;    
+%init}
+
+BLANCO = [ \r\t]+
+ENTERO= [0-9]+
+DOUBLE = [0-9]+("."[ |0-9]+)?
+COMENTARIO     =   ("//".*\r\n)|("//".*\n)|("//".*\r)
+COMENTMULTI    =   "/*""/"*([^*/]|[^*]"/"|"*"[^/])*"*"*"*/"
+STRING = [\"]([^\"\n]|(\\\"))*[\"]
+COMILLASDOBLES = [\"]
+IDENTIFICADOR ="_"([A-Za-z])([A-Za-z]|[0-9])*"_"
+CHAR = [\']([^\t\'\"\n]|(\\\")|(\\n)|(\\\')|(\\t))?[\']
+S_INTERROGACIONABRE = [\¿]
+%%
+
+{BLANCO} {} 
+{COMENTMULTI} {} 
+{COMENTARIO} {} 
+
+
+
+"{" {return new Symbol(sym.S_LLAVEABRE,yyline,yycolumn, yytext());} 
+"}" {return new Symbol(sym.S_LLAVECIERRA,yyline,yycolumn, yytext());}
+"NUMERO" {return new Symbol(sym.PR_NUM,yyline,yycolumn, yytext());} 
+"CADENA" {return new Symbol(sym.PR_CAD,yyline,yycolumn, yytext());} 
+"BOOLEAN" {return new Symbol(sym.PR_BOOL,yyline,yycolumn, yytext());} 
+"CARACTER" {return new Symbol(sym.PR_CAR,yyline,yycolumn, yytext());} 
+"+" {return new Symbol(sym.PR_SUMA,yyline,yycolumn, yytext());} 
+"-" {return new Symbol(sym.PR_RESTA,yyline,yycolumn, yytext());} 
+"*" {return new Symbol(sym.PR_MULT,yyline,yycolumn, yytext());} 
+"/" {return new Symbol(sym.PR_DIV,yyline,yycolumn, yytext());} 
+"POTENCIA" {return new Symbol(sym.PR_POT,yyline,yycolumn, yytext());} 
+"MOD" {return new Symbol(sym.PR_MOD,yyline,yycolumn, yytext());} 
+"(" {return new Symbol(sym.PR_PARABRE,yyline,yycolumn, yytext());} 
+")" {return new Symbol(sym.PR_PARCIERRA,yyline,yycolumn, yytext());} 
+"MAYOR" {return new Symbol(sym.PR_MAYOR,yyline,yycolumn, yytext());} 
+"MENOR" {return new Symbol(sym.PR_MENOR,yyline,yycolumn, yytext());} 
+"MAYOR_O_IGUAL" {return new Symbol(sym.PR_MAYOROIGUAL,yyline,yycolumn, yytext());} 
+"MENOR_O_IGUAL" {return new Symbol(sym.PR_MENOROIGUAL,yyline,yycolumn, yytext());} 
+"ES_IGUAL" {return new Symbol(sym.PR_IGUAL,yyline,yycolumn, yytext());} 
+"ES_DIFERENTE" {return new Symbol(sym.PR_DIFERENTE,yyline,yycolumn, yytext());} 
+"OR" {return new Symbol(sym.PR_OR,yyline,yycolumn, yytext());} 
+"AND" {return new Symbol(sym.PR_AND,yyline,yycolumn, yytext());} 
+"NOT" {return new Symbol(sym.PR_NOT,yyline,yycolumn, yytext());} 
+"INICIO" {return new Symbol(sym.PR_INICIO,yyline,yycolumn, yytext());} 
+"FIN" {return new Symbol(sym.PR_FIN,yyline,yycolumn, yytext());} 
+"INGRESAR" {return new Symbol(sym.PR_INGRESAR,yyline,yycolumn, yytext());}
+"CON_VALOR" {return new Symbol(sym.PR_CONVALOR,yyline,yycolumn, yytext());} 
+"COMO" {return new Symbol(sym.PR_COMO,yyline,yycolumn, yytext());} 
+"SI" {return new Symbol(sym.PR_SI,yyline,yycolumn, yytext());} 
+"ENTONCES" {return new Symbol(sym.PR_ENTONCES,yyline,yycolumn, yytext());} 
+"DE_LO_CONTRARIO" {return new Symbol(sym.PR_DELOCONTRARIO,yyline,yycolumn, yytext());} 
+"O_SI" {return new Symbol(sym.PR_OSI,yyline,yycolumn, yytext());} 
+"FIN_SI" {return new Symbol(sym.PR_FINSI,yyline,yycolumn, yytext());} 
+"SEGUN" {return new Symbol(sym.PR_SEGUN,yyline,yycolumn, yytext());} 
+"HACER" {return new Symbol(sym.PR_HACER,yyline,yycolumn, yytext());} 
+"FIN_SEGUN" {return new Symbol(sym.PR_FINSEGUN,yyline,yycolumn, yytext());} 
+"PARA" {return new Symbol(sym.PR_PARA,yyline,yycolumn, yytext());} 
+"HASTA" {return new Symbol(sym.PR_HASTA,yyline,yycolumn, yytext());} 
+"FIN_PARA" {return new Symbol(sym.PR_FINPARA,yyline,yycolumn, yytext());} 
+"CON" {return new Symbol(sym.PR_CON,yyline,yycolumn, yytext());} 
+"INCREMENTAL" {return new Symbol(sym.PR_INCREMENTAL,yyline,yycolumn, yytext());} 
+"MIENTRAS" {return new Symbol(sym.PR_MIENTRAS,yyline,yycolumn, yytext());} 
+"FIN_MIENTRAS" {return new Symbol(sym.PR_FINMIENTRAS,yyline,yycolumn, yytext());} 
+"REPETIR" {return new Symbol(sym.PR_REPETIR,yyline,yycolumn, yytext());} 
+"HASTA_QUE" {return new Symbol(sym.PR_HASTAQUE,yyline,yycolumn, yytext());} 
+"RETORNAR" {return new Symbol(sym.PR_RETORNAR,yyline,yycolumn, yytext());} 
+"METODO" {return new Symbol(sym.PR_METODO,yyline,yycolumn, yytext());} 
+"FIN_METODO" {return new Symbol(sym.PR_FINMETODO,yyline,yycolumn, yytext());} 
+"CON_PARAMETROS" {return new Symbol(sym.PR_CONPARAMETROS,yyline,yycolumn, yytext());} 
+"FUNCION" {return new Symbol(sym.PR_FUNCION,yyline,yycolumn, yytext());} 
+"FIN_FUNCION" {return new Symbol(sym.PR_FINFUNCION,yyline,yycolumn, yytext());} 
+"EJECUTAR" {return new Symbol(sym.PR_EJECUTAR,yyline,yycolumn, yytext());} 
+"IMPRIMIR" {return new Symbol(sym.PR_IMPRIMIR,yyline,yycolumn, yytext());} 
+"IMPRIMIR_LN" {return new Symbol(sym.PR_IMPRIMIRLN,yyline,yycolumn, yytext());} 
+"VERDADERO" {return new Symbol(sym.PR_VERDADERO,yyline,yycolumn, yytext());} 
+"FALSO" {return new Symbol(sym.PR_FALSO,yyline,yycolumn, yytext());} 
+
+"," {return new Symbol(sym.S_COMA,yyline,yycolumn, yytext());} 
+">" {return new Symbol(sym.S_MAYORQ,yyline,yycolumn, yytext());} 
+";" {return new Symbol(sym.S_PUNTOYCOMA,yyline,yycolumn, yytext());}  
+"?" {return new Symbol(sym.S_INTERROGACIONCIERRA,yyline,yycolumn, yytext());} 
+"$" {return new Symbol(sym.S_DOLLAR,yyline,yycolumn, yytext());} 
+
+\n {yycolumn=1;}
+ 
+{ENTERO} {return new Symbol(sym.ENTERO,yyline,yycolumn, yytext());} 
+{DOUBLE} {return new Symbol(sym.DOUBLE,yyline,yycolumn, yytext());} 
+{STRING} {return new Symbol(sym.STRING, yyline, yycolumn, yytext());}
+{IDENTIFICADOR} {return new Symbol(sym.IDENTIFICADOR, yyline, yycolumn, yytext());}
+{CHAR} {return new Symbol(sym.CHAR, yyline, yycolumn, yytext());}
+{S_INTERROGACIONABRE} {return new Symbol(sym.S_INTERROGACIONABRE, yyline, yycolumn, yytext());}
+
+. {
+    System.err.println("Este es un error lexico: "+yytext()+" , en la linea: "+yyline+", en la columna: "+yycolumn);
+}
