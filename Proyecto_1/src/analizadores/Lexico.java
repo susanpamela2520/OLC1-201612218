@@ -287,9 +287,9 @@ public class Lexico implements java_cup.runtime.Scanner {
     "\1\u010f\107\0\1\u0110\56\0\1\u0111\50\0\1\u0112\24\0"+
     "\1\u0112\36\0\1\u0113\24\0\1\u0113\44\0\1\u0114\51\0"+
     "\1\u0115\102\0\1\u0116\55\0\1\u0117\64\0\1\u0118\63\0"+
-    "\1\u0119\66\0\1\u011a\55\0\1\u011b\50\0\1\u011c\71\0"+
+    "\1\u0119\66\0\1\u011a\57\0\1\u011b\46\0\1\u011c\71\0"+
     "\1\u011d\63\0\1\u011e\100\0\1\u011f\61\0\1\u0120\65\0"+
-    "\1\u0121\55\0\1\u0122\46\0\1\u0123\100\0\1\u0124\61\0"+
+    "\1\u0121\55\0\1\u0122\46\0\1\u0123\76\0\1\u0124\63\0"+
     "\1\u0125\74\0\1\u0126\63\0\1\u0127\60\0\1\u0128\42\0"+
     "\1\u0129\67\0\1\u012a\101\0\1\u012b\13\0\1\u012b\25\0"+
     "\1\u012c\63\0\1\u012d\101\0\1\u012e\66\0\1\u012f\55\0"+
@@ -1148,7 +1148,7 @@ public class Lexico implements java_cup.runtime.Scanner {
             // fall through
           case 132: break;
           case 63:
-            { return new Symbol(sym.PR_IMPRIMIRLN,yyline,yycolumn, yytext());
+            { return new Symbol(sym.PR_IMPRIMIRNL,yyline,yycolumn, yytext());
             }
             // fall through
           case 133: break;

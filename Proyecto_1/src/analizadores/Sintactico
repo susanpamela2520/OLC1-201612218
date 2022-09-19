@@ -88,7 +88,7 @@ terminal String PR_FUNCION;
 terminal String PR_FINFUNCION;
 terminal String PR_EJECUTAR;
 terminal String PR_IMPRIMIR;
-terminal String PR_IMPRIMIRLN;
+terminal String PR_IMPRIMIRNL;
 terminal String PR_VERDADERO;
 terminal String PR_FALSO;
 terminal String D_DIGITO;
@@ -126,7 +126,16 @@ non terminal ciclorepetirhasta;
 non terminal retorno;
 non terminal metodo;
 non terminal listaparametros;
+non terminal listaparametros2;
 non terminal tipodato;
+non terminal funcion;
+non terminal parametros;
+non terminal llamada;
+non terminal listaparametros3;
+non terminal listaparametros4;
+non terminal imprimir;
+non terminal imprimirnl;
+
 
 
 precedence left PR_MOD;
@@ -158,6 +167,10 @@ inicio ::= PR_INICIO instrucciones:a PR_FIN;
     |ciclorepetirhasta:a
     |retorno:a
     |metodo:a
+    |funcion:a
+    |llamada:a
+    |imprimir:a
+    |imprimirnl:a
 ;
 
 
@@ -278,13 +291,18 @@ retorno::=
 
 
 metodo::=
-    PR_METODO variables:a intrucciones:b PR_FINMETODO
-    |PR_METODO variables:a PR_CONPARAMETROS PR_PARABRE listaparametros:b PR_PARCIERRA intrucciones:c PR_FINMETODO
+    PR_METODO variables:a instrucciones:b PR_FINMETODO
+    |PR_METODO variables:a PR_CONPARAMETROS PR_PARABRE listaparametros:b PR_PARCIERRA instrucciones:c PR_FINMETODO
 ;
 
 listaparametros::=
-    variables:a tipodato:b listaparametros:c
-    |PR_COMA variables:a tipodato:b listaparametros:c
+    variables tipodato listaparametros2
+    |variables tipodato
+;
+
+listaparametros2::=
+    S_COMA variables tipodato listaparametros2
+    |S_COMA variables tipodato
 ;
 
 tipodato::=
@@ -292,4 +310,43 @@ tipodato::=
     |CHAR
     |ENTERO
     |DOUBLE
+    |PR_BOOL
 ;
+
+funcion::=
+    PR_FUNCION variables:a tipodato:b instrucciones:d PR_FINFUNCION
+    |PR_FUNCION variables:a tipodato:b PR_CONPARAMETROS PR_PARABRE listaparametros:c PR_PARCIERRA instrucciones:d PR_FINFUNCION
+;
+
+llamada::=
+    PR_EJECUTAR variables:a PR_PARABRE PR_PARCIERRA S_PUNTOYCOMA   {:System.out.println("Hizo llamada");:}
+    |PR_EJECUTAR variables:a PR_PARABRE listaparametros3 PR_PARCIERRA S_PUNTOYCOMA {:System.out.println("Hizo llamada");:}
+;
+
+listaparametros3::=
+variables listaparametros4
+|variables
+;
+
+listaparametros4::=
+S_COMA variables listaparametros4
+|S_COMA variables
+;
+
+imprimir::=
+    PR_IMPRIMIR STRING S_PUNTOYCOMA {:System.out.println("Imprimio string ");:}
+    |PR_IMPRIMIR expresion_num S_PUNTOYCOMA  {:System.out.println("imprimio numerica");:}
+    |PR_IMPRIMIR expresion_logica S_PUNTOYCOMA  {:System.out.println("imprimio logica ");:}
+    |PR_IMPRIMIR expresion_char S_PUNTOYCOMA    {:System.out.println("imprimio char");:}
+;
+
+imprimirnl::=
+    PR_IMPRIMIRNL STRING S_PUNTOYCOMA {:System.out.println("Imprimionl string ");:}
+    |PR_IMPRIMIRNL expresion_num S_PUNTOYCOMA  {:System.out.println("Imprimionl numero ");:}
+    |PR_IMPRIMIRNL expresion_logica S_PUNTOYCOMA {:System.out.println("Imprimionl logica ");:}
+    |PR_IMPRIMIRNL expresion_char S_PUNTOYCOMA   {:System.out.println("Imprimioln char ");:}
+;
+
+
+
+    

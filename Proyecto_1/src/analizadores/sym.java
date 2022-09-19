@@ -24,7 +24,6 @@ public class sym {
   public static final int PR_IMPRIMIR = 60;
   public static final int PR_METODO = 54;
   public static final int PR_FINFUNCION = 58;
-  public static final int PR_IMPRIMIRLN = 61;
   public static final int PR_OSI = 38;
   public static final int PR_CON = 46;
   public static final int S_DOLLAR = 71;
@@ -65,6 +64,7 @@ public class sym {
   public static final int S_INTERROGACIONCIERRA = 70;
   public static final int PR_NOT = 30;
   public static final int S_LLAVECIERRA = 73;
+  public static final int PR_IMPRIMIRNL = 61;
   public static final int PR_NUM = 10;
   public static final int PR_OR = 28;
   public static final int PR_DIFERENTE = 27;
@@ -144,7 +144,7 @@ public class sym {
   "PR_FINFUNCION",
   "PR_EJECUTAR",
   "PR_IMPRIMIR",
-  "PR_IMPRIMIRLN",
+  "PR_IMPRIMIRNL",
   "PR_VERDADERO",
   "PR_FALSO",
   "D_DIGITO",

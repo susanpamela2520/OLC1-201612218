@@ -86,7 +86,7 @@ S_INTERROGACIONABRE = [\¿]
 "FIN_FUNCION" {return new Symbol(sym.PR_FINFUNCION,yyline,yycolumn, yytext());} 
 "EJECUTAR" {return new Symbol(sym.PR_EJECUTAR,yyline,yycolumn, yytext());} 
 "IMPRIMIR" {return new Symbol(sym.PR_IMPRIMIR,yyline,yycolumn, yytext());} 
-"IMPRIMIR_LN" {return new Symbol(sym.PR_IMPRIMIRLN,yyline,yycolumn, yytext());} 
+"IMPRIMIR_NL" {return new Symbol(sym.PR_IMPRIMIRNL,yyline,yycolumn, yytext());} 
 "VERDADERO" {return new Symbol(sym.PR_VERDADERO,yyline,yycolumn, yytext());} 
 "FALSO" {return new Symbol(sym.PR_FALSO,yyline,yycolumn, yytext());} 
 
