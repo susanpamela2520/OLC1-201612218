@@ -5,21 +5,17 @@ import arbol.instruccion;
 import arbol.Operacion;
 import arbol.Variable;
 import arbol.Declaracion;
+import arbol.Nodo;
 
 
 
 parser code 
 {:
   
+    public static Nodo padre;
+    public int cont = 0;
 
-    public LinkedList<instruccion> arbol;
-
-    public LinkedList<instruccion> getArbol(){
-    return arbol;
-    }
-
-
-  public void syntax_error(Symbol s){ 
+    public void syntax_error(Symbol s){ 
             System.err.println("Error Sintáctico en la Línea " + (s.left) +" Columna "+s.right+ ". No se esperaba este componente: " +s.value+"."); 
     } 
    
@@ -149,202 +145,1401 @@ precedence left PR_AND, PR_OR;
 
 start with inicio;
 
-inicio ::= PR_INICIO instrucciones:a PR_FIN;
+inicio ::= PR_INICIO instrucciones:a PR_FIN
+
+    {:Nodo nd = new Nodo();
+    nd.setId(parser.cont++);
+    nd.setEtiqueta ("inicio");
+    Nodo n1 = new Nodo(); n1.setEtiqueta("PR_INICIO");
+    n1.setId(parser.cont++);
+    Nodo n2 = new Nodo(); n2.setEtiqueta("PR_FIN");
+    n2.setId(parser.cont++);
+    nd.AddHijos(n1);
+    nd.AddHijos((Nodo) a);
+    nd.AddHijos(n2);
+   
+    parser.padre = (Nodo) nd;
+    RESULT = nd;:}
+;
 
  instrucciones::= 
     instrucciones:a instruccion:b 
+        {:
+            Nodo nd = new Nodo();
+            nd.setEtiqueta ("instrucciones");
+            nd.AddHijos((Nodo) a);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+    
     |instruccion:a 
-                                           
-;
+        
+        {:
+            Nodo nd = new Nodo();
+            nd.setEtiqueta ("instrucciones");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :};
+    
 
     instruccion ::= 
     declaracion:a 
+        {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("instruccion");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
     |asignacion:a
+           {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("instruccion");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
+
     |condicional_si:a
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("instruccion");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
+        
     |condicional_segun:a
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("instruccion");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
+
     |ciclopara:a
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("instruccion");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
+
     |ciclomientras:a
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("instruccion");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
+        
     |ciclorepetirhasta:a
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("instruccion");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
+
     |retorno:a
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("instruccion");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
+
     |metodo:a
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("instruccion");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
+
     |funcion:a
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("instruccion");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
+
     |llamada:a
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("instruccion");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
+
     |imprimir:a
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("instruccion");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
+
     |imprimirnl:a
-;
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("instruccion");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :};
+
 
 
 declaracion ::=
     PR_INGRESAR listaVariable:a PR_COMO PR_CAD PR_CONVALOR STRING:b S_PUNTOYCOMA {:System.out.println("declaracion:CADENA");:}
+            
+    {:Nodo nd = new Nodo();
+    nd.setId(parser.cont++);
+    nd.setEtiqueta ("declaracion");
+    Nodo n1 = new Nodo(); n1.setEtiqueta("PR_INGRESAR");
+    n1.setId(parser.cont++);
+    Nodo n2 = new Nodo(); n2.setEtiqueta("PR_COMO");
+    n2.setId(parser.cont++);
+    Nodo n3 = new Nodo(); n3.setEtiqueta("PR_CAD");
+    n3.setId(parser.cont++);
+    Nodo n4 = new Nodo(); n4.setEtiqueta("PR_CONVALOR");
+    n4.setId(parser.cont++);
+    Nodo n5 = new Nodo(); n5.setEtiqueta("S_PUNTOYCOMA");
+    n5.setId(parser.cont++);
+    Nodo n6 = new Nodo(); n6.setEtiqueta("STRING");
+    n6.setId(parser.cont++);
+    nd.AddHijos(n1);
+    nd.AddHijos((Nodo) a);
+    nd.AddHijos(n2);
+    nd.AddHijos(n3);
+    nd.AddHijos(n4);
+    nd.AddHijos(n6);
+    nd.AddHijos(n5);
+    parser.padre = (Nodo) nd;
+    RESULT = nd;:}
+
  |  PR_INGRESAR listaVariable:a PR_COMO PR_NUM PR_CONVALOR expresion_num:b S_PUNTOYCOMA  {:System.out.println("declaracion:NUMERICA");:}
+    
+    {:Nodo nd = new Nodo();
+    nd.setId(parser.cont++);
+    nd.setEtiqueta ("declaracion");
+    Nodo n1 = new Nodo(); n1.setEtiqueta("PR_INGRESAR");
+    n1.setId(parser.cont++);
+    Nodo n2 = new Nodo(); n2.setEtiqueta("PR_COMO");
+    n2.setId(parser.cont++);
+    Nodo n3 = new Nodo(); n3.setEtiqueta("PR_NUM");
+    n3.setId(parser.cont++);
+    Nodo n4 = new Nodo(); n4.setEtiqueta("PR_CONVALOR");
+    n4.setId(parser.cont++);
+    Nodo n5 = new Nodo(); n5.setEtiqueta("S_PUNTOYCOMA");
+    n5.setId(parser.cont++);
+    nd.AddHijos(n1);
+    nd.AddHijos((Nodo) a);
+    nd.AddHijos(n2);
+    nd.AddHijos(n3);
+    nd.AddHijos(n4);
+    nd.AddHijos((Nodo) b);
+    nd.AddHijos(n5);
+    parser.padre = (Nodo) nd;
+    RESULT = nd;:}
+
+
  |  PR_INGRESAR listaVariable:a PR_COMO PR_BOOL PR_CONVALOR expresion_logica:b S_PUNTOYCOMA {:System.out.println("declaracion:LOGICA");:}
+
+    {:Nodo nd = new Nodo();
+    nd.setId(parser.cont++);
+    nd.setEtiqueta ("declaracion");
+    Nodo n1 = new Nodo(); n1.setEtiqueta("PR_INGRESAR");
+    n1.setId(parser.cont++);
+    Nodo n2 = new Nodo(); n2.setEtiqueta("PR_COMO");
+    n2.setId(parser.cont++);
+    Nodo n3 = new Nodo(); n3.setEtiqueta("PR_BOOL");
+    n3.setId(parser.cont++);
+    Nodo n4 = new Nodo(); n4.setEtiqueta("PR_CONVALOR");
+    n4.setId(parser.cont++);
+    Nodo n5 = new Nodo(); n5.setEtiqueta("S_PUNTOYCOMA");
+    n5.setId(parser.cont++);
+    nd.AddHijos(n1);
+    nd.AddHijos((Nodo) a);
+    nd.AddHijos(n2);
+    nd.AddHijos(n3);
+    nd.AddHijos(n4);
+    nd.AddHijos((Nodo) b);
+    nd.AddHijos(n5);
+    parser.padre = (Nodo) nd;
+    RESULT = nd;:}
+
+
  |  PR_INGRESAR listaVariable:a PR_COMO PR_CAR PR_CONVALOR expresion_char:b S_PUNTOYCOMA {:System.out.println("declaracion:CARACTER");:}
-;
+    {:Nodo nd = new Nodo();
+    nd.setId(parser.cont++);
+    nd.setEtiqueta ("declaracion");
+    Nodo n1 = new Nodo(); n1.setEtiqueta("PR_INGRESAR");
+    n1.setId(parser.cont++);
+    Nodo n2 = new Nodo(); n2.setEtiqueta("PR_COMO");
+    n2.setId(parser.cont++);
+    Nodo n3 = new Nodo(); n3.setEtiqueta("PR_CAR");
+    n3.setId(parser.cont++);
+    Nodo n4 = new Nodo(); n4.setEtiqueta("PR_CONVALOR");
+    n4.setId(parser.cont++);
+    Nodo n5 = new Nodo(); n5.setEtiqueta("S_PUNTOYCOMA");
+    n5.setId(parser.cont++);
+    nd.AddHijos(n1);
+    nd.AddHijos((Nodo) a);
+    nd.AddHijos(n2);
+    nd.AddHijos(n3);
+    nd.AddHijos(n4);
+    nd.AddHijos((Nodo) b);
+    nd.AddHijos(n5);
+    parser.padre = (Nodo) nd;
+    RESULT = nd;:};
+
+
 
 expresion_num::=
     expresion_num:a PR_SUMA expresion_num: b
+
+         {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_num");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_SUMA");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+
     |expresion_num:a PR_RESTA expresion_num:b
+
+          {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_num");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_RESTA");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+
     |expresion_num:a PR_MULT expresion_num:b
+
+        {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_num");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_MULT");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+        
     |PR_RESTA expresion_num:a
+
+        {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_num");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_RESTA");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
+
     |expresion_num:a PR_DIV expresion_num:b
+        {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_num");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_DIV");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+
     |expresion_num:a PR_POT expresion_num:b
+         {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_num");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_POT");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+
     |PR_PARABRE expresion_num:a PR_PARCIERRA 
+         {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_num");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_PARABRE");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_PARCIERRA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+        :}
+
     |ENTERO:a 
+        {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_num");
+            RESULT = nd;
+        :}
+
     |DOUBLE:a
-;
+        {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_num");
+            RESULT = nd;
+        :};
+            
 
 
 asignacion ::= 
     listaVariable:a PR_RESTA S_MAYORQ expresion_num:b S_PUNTOYCOMA {:System.out.println("declaracion:Asignacion");:}
-;
+        
+        {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("asignacion");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_RESTA");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            Nodo n2 = new Nodo(); n1.setEtiqueta("S_MAYORQ");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            nd.AddHijos((Nodo) b);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("S_PUNTOYCOMA");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            RESULT = nd;
+        :};
+
+
 
 listaVariable ::=
     listaVariable:a S_COMA IDENTIFICADOR:b
+        
+        {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("listaVariable");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("S_COMA");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            RESULT = nd;
+        :}
+      
     |IDENTIFICADOR:a 
-;
+
+        {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("listaVariable");
+            nd.setId(parser.cont++);
+            RESULT = nd;
+        :};
+
 
 expresion_logica::=
     PR_VERDADERO:a
+        
+        {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_logica");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_VERDADERO");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            RESULT = nd;
+        :}
+
     |PR_FALSO:a
+           {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_logica");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_FALSO");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            RESULT = nd;
+        :}
+
     |expresion_num:a PR_MAYOR expresion_num: b
+           
+            {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_logica");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_MAYOR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+
     |expresion_num:a PR_MENOR expresion_num:b
+            
+            {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_logica");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_MENOR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+
     |expresion_num:a PR_MAYOROIGUAL expresion_num:b
+            {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_logica");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_MAYOROIGUAL");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+
     |expresion_num:a PR_MENOROIGUAL expresion_num:b
+            {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_logica");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_MENOROIGUAL");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+
     |expresion_num:a PR_IGUAL expresion_num:b
+            {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_logica");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_IGUAL");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+            
     |expresion_num:a PR_DIFERENTE expresion_num:b
+            {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_logica");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_DIFERENTE");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+
     |expresion_logica:a PR_OR expresion_logica:b
+            {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_logica");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_OR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+
+
     |expresion_logica:a PR_AND expresion_logica:b
+            {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_logica");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_AND");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
+            
     |PR_NOT expresion_logica:a 
+            {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_logica");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_NOT");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
 ;
 
 
 expresion_char::=
        CHAR:a 
-;
+        
+         {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("expresion_char");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("CHAR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            RESULT = nd;
+        :};
+
 
 
 condicional_si ::=
-    PR_SI expresion_logica:a PR_ENTONCES instrucciones:b o_si de_lo_contrario PR_FINSI   {:System.out.println("Trae ambos");:}
-    |PR_SI expresion_logica:a PR_ENTONCES instrucciones:b de_lo_contrario PR_FINSI       {:System.out.println("de lo contrario");:}
-    |PR_SI expresion_logica:a PR_ENTONCES instrucciones:b o_si PR_FINSI                  {:System.out.println("o si ");:}
+    PR_SI expresion_logica:a PR_ENTONCES instrucciones:b o_si:c de_lo_contrario:d PR_FINSI   {:System.out.println("Trae ambos");:}
+        {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("condicional_si");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_SI");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_ENTONCES");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            nd.AddHijos((Nodo) b);
+            nd.AddHijos((Nodo) c);
+            nd.AddHijos((Nodo) d);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("PR_FINSI");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            RESULT = nd;
+        :}
+    
+
+    |PR_SI expresion_logica:a PR_ENTONCES instrucciones:b de_lo_contrario:c PR_FINSI       {:System.out.println("de lo contrario");:}
+            
+            {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("condicional_si");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_SI");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_ENTONCES");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            nd.AddHijos((Nodo) b);
+            nd.AddHijos((Nodo) c);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("PR_FINSI");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            RESULT = nd;
+        :}
+
+
+    |PR_SI expresion_logica:a PR_ENTONCES instrucciones:b o_si:c PR_FINSI                  {:System.out.println("o si ");:}
+            
+            {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("condicional_si");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_SI");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_ENTONCES");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            nd.AddHijos((Nodo) b);
+            nd.AddHijos((Nodo) c);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("PR_FINSI");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            RESULT = nd;
+        :}
+
     |PR_SI expresion_logica:a PR_ENTONCES instrucciones:b PR_FINSI                      {:System.out.println("ninguno");:}
-;
+           
+        {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("condicional_si");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_SI");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_ENTONCES");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            nd.AddHijos((Nodo) b);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("PR_FINSI");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            RESULT = nd;
+        :};
+
 
 o_si ::=
     PR_OSI expresion_logica:a PR_ENTONCES instrucciones:b o_si:c 
+
+        {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("o_si");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_OSI");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_ENTONCES");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            nd.AddHijos((Nodo) b);
+            nd.AddHijos((Nodo) c);
+            RESULT = nd;
+        :}
+
     |PR_OSI expresion_logica:a PR_ENTONCES instrucciones:b  
+        
+        {: Nodo nd = new Nodo();
+            nd.setEtiqueta ("o_si");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_OSI");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_ENTONCES");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
 ;
 
 
 de_lo_contrario ::=
     PR_DELOCONTRARIO instrucciones:a 
+
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("de_lo_contario");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_DELOCONTRARIO");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+        :}
 ;
 
 
 condicional_segun::=
     PR_SEGUN valor:a PR_HACER opciones:b PR_DELOCONTRARIO PR_ENTONCES instrucciones:c PR_FINSEGUN
+
+           {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("condicional_segun");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_HACER");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) b);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_DELOCONTRARIO");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("PR_ENTONCES");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            nd.AddHijos((Nodo) c);
+            Nodo n4 = new Nodo(); n4.setEtiqueta("PR_FINSEGUN");
+            n4.setId(parser.cont++);
+            nd.AddHijos(n4);
+            RESULT = nd;
+        :}
 ;
 
 valor::=
        variables:a
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("valor");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+            :}
+
        |expresion_num:a
+             {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("valor");
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+            :}
 ;
 
 variables::=
     IDENTIFICADOR:a
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("variables");
+            RESULT = nd;
+            :}
 ;
 
 opciones::=
-    S_INTERROGACIONABRE valor:a S_INTERROGACIONCIERRA PR_ENTONCES instrucciones:b opciones
+    S_INTERROGACIONABRE valor:a S_INTERROGACIONCIERRA PR_ENTONCES instrucciones:b opciones:c
+
+          {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("opciones");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("S_INTERROGACIONABRE");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_INTERROGACIONCIERRA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("PR_ENTONCES");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            nd.AddHijos((Nodo) b);
+            nd.AddHijos((Nodo) c);
+            RESULT = nd;
+        :}
+
+
     |S_INTERROGACIONABRE valor:a S_INTERROGACIONCIERRA PR_ENTONCES instrucciones:b
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("opciones");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("S_INTERROGACIONABRE");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_INTERROGACIONCIERRA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("PR_ENTONCES");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+        :}
 ;
+
 
 ciclopara::=
     PR_PARA variables:a PR_RESTA S_MAYORQ valor:b  PR_HASTA valor:c incremental:d PR_HACER instrucciones:e PR_FINPARA 
-    |PR_PARA variables:a PR_RESTA S_MAYORQ valor:b  PR_HASTA valor:c PR_HACER instrucciones:d PR_FINPARA 
-    |PR_PARA variables:a PR_RESTA S_MAYORQ valor:b  PR_HASTA valor:c incremental:d PR_HACER PR_FINPARA 
-    |PR_PARA variables:a PR_RESTA S_MAYORQ valor:b  PR_HASTA valor:c PR_HACER PR_FINPARA 
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("ciclopara");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_PARA");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_RESTA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            nd.AddHijos((Nodo) b);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("S_MAYORQ");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            nd.AddHijos((Nodo) c);
+            nd.AddHijos((Nodo) d);
+            Nodo n4 = new Nodo(); n4.setEtiqueta("PR_HASTA");
+            n4.setId(parser.cont++);
+            nd.AddHijos(n4);
+            nd.AddHijos((Nodo) e);
+            Nodo n5 = new Nodo(); n5.setEtiqueta("PR_HACER");
+            n5.setId(parser.cont++);
+            nd.AddHijos(n5);
+            Nodo n6 = new Nodo(); n6.setEtiqueta("PR_FINPARA");
+            n6.setId(parser.cont++);
+            nd.AddHijos(n6);
+            RESULT = nd;
+        :}
 
+
+    |PR_PARA variables:a PR_RESTA S_MAYORQ valor:b  PR_HASTA valor:c PR_HACER instrucciones:d PR_FINPARA 
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("ciclopara");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_PARA");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_RESTA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("S_MAYORQ");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            nd.AddHijos((Nodo) b);
+            Nodo n4 = new Nodo(); n4.setEtiqueta("PR_HASTA");
+            n4.setId(parser.cont++);
+            nd.AddHijos(n4);
+            nd.AddHijos((Nodo) c);
+            Nodo n5 = new Nodo(); n5.setEtiqueta("PR_HACER");
+            n5.setId(parser.cont++);
+            nd.AddHijos(n5);
+            nd.AddHijos((Nodo) d);
+            Nodo n6 = new Nodo(); n6.setEtiqueta("PR_FINPARA");
+            n6.setId(parser.cont++);
+            nd.AddHijos(n6);
+            RESULT = nd;
+        :}
+
+    |PR_PARA variables:a PR_RESTA S_MAYORQ valor:b  PR_HASTA valor:c incremental:d PR_HACER PR_FINPARA 
+
+               {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("ciclopara");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_PARA");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_RESTA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("S_MAYORQ");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            nd.AddHijos((Nodo) b);
+            Nodo n4 = new Nodo(); n4.setEtiqueta("PR_HASTA");
+            n4.setId(parser.cont++);
+            nd.AddHijos(n4);
+            nd.AddHijos((Nodo) c);
+            nd.AddHijos((Nodo) d);
+            Nodo n5 = new Nodo(); n5.setEtiqueta("PR_HACER");
+            n5.setId(parser.cont++);
+            nd.AddHijos(n5);
+            Nodo n6 = new Nodo(); n6.setEtiqueta("PR_FINPARA");
+            n6.setId(parser.cont++);
+            nd.AddHijos(n6);
+            RESULT = nd;
+        :}
+
+    |PR_PARA variables:a PR_RESTA S_MAYORQ valor:b  PR_HASTA valor:c PR_HACER PR_FINPARA 
+                
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("ciclopara");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_PARA");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_RESTA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("S_MAYORQ");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            nd.AddHijos((Nodo) b);
+            Nodo n4 = new Nodo(); n4.setEtiqueta("PR_HASTA");
+            n4.setId(parser.cont++);
+            nd.AddHijos(n4);
+            nd.AddHijos((Nodo) c);
+            Nodo n5 = new Nodo(); n5.setEtiqueta("PR_HACER");
+            n5.setId(parser.cont++);
+            nd.AddHijos(n5);
+            Nodo n6 = new Nodo(); n6.setEtiqueta("PR_FINPARA");
+            n6.setId(parser.cont++);
+            nd.AddHijos(n6);
+            RESULT = nd;
+        :}
 ;
 
 incremental::=
-    PR_CON PR_INCREMENTAL valor
+    PR_CON PR_INCREMENTAL valor:a
+        
+         {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("incremental");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_CON");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_INCREMENTAL");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+            :}
 ;
 
 ciclomientras::=
     PR_MIENTRAS expresion_logica:a PR_HACER instrucciones:b PR_FINMIENTRAS
+          {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("ciclomientras");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_MIENTRAS");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_HACER");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            nd.AddHijos((Nodo) b);
+            Nodo n3 = new Nodo(); n2.setEtiqueta("PR_FINMIENTRAS");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            RESULT = nd;
+            :}
+
     |PR_MIENTRAS expresion_logica:a PR_HACER PR_FINMIENTRAS
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("ciclomientras");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_MIENTRAS");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_HACER");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            Nodo n3 = new Nodo(); n2.setEtiqueta("PR_FINMIENTRAS");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            RESULT = nd;
+            :}
 ;
 
 ciclorepetirhasta::=
     PR_REPETIR instrucciones:a PR_HASTAQUE expresion_logica:b
+             {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("ciclorepetirhasta");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_REPETIR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_HASTAQUE");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+            :}
+
     |PR_REPETIR PR_HASTAQUE expresion_logica:a
+
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("ciclorepetirhasta");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_REPETIR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_HASTAQUE");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+            :}
 ;
 
 
 retorno::=
-    PR_RETORNAR STRING S_PUNTOYCOMA   {:System.out.println("Retorno String");:}
-    |PR_RETORNAR expresion_num S_PUNTOYCOMA {:System.out.println("Retorno numerico");:}
-    |PR_RETORNAR expresion_logica S_PUNTOYCOMA {:System.out.println("Retorno logico");:}
-    |PR_RETORNAR expresion_char S_PUNTOYCOMA   {:System.out.println("Retorno Char");:}
+    PR_RETORNAR STRING:a S_PUNTOYCOMA   {:System.out.println("Retorno String");:}
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("retorno");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_RETORNAR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("STRING");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_PUNTOYCOMA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+            :}
+
+    |PR_RETORNAR expresion_num:a S_PUNTOYCOMA {:System.out.println("Retorno numerico");:}
+             {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("retorno");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_RETORNAR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_PUNTOYCOMA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+            :}
+
+    |PR_RETORNAR expresion_logica:a S_PUNTOYCOMA {:System.out.println("Retorno logico");:}
+             {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("retorno");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_RETORNAR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_PUNTOYCOMA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+            :}
+    |PR_RETORNAR expresion_char:a S_PUNTOYCOMA   {:System.out.println("Retorno Char");:}
+             {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("retorno");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_RETORNAR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_PUNTOYCOMA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+            :}
 ;
 
 
 metodo::=
     PR_METODO variables:a instrucciones:b PR_FINMETODO
+             {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("metodo");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_METODO");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            nd.AddHijos((Nodo) b);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_FINMETODO");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+            :}
+
     |PR_METODO variables:a PR_CONPARAMETROS PR_PARABRE listaparametros:b PR_PARCIERRA instrucciones:c PR_FINMETODO
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("metodo");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_METODO");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_CONPARAMETROS");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            Nodo n5 = new Nodo(); n5.setEtiqueta("PR_PARABRE");
+            n5.setId(parser.cont++);
+            nd.AddHijos(n5);
+            nd.AddHijos((Nodo) b);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("PR_PARCIERRA");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            nd.AddHijos((Nodo) c);
+            Nodo n4 = new Nodo(); n4.setEtiqueta("PR_FINMETODO");
+            n4.setId(parser.cont++);
+            nd.AddHijos(n4);
+            RESULT = nd;
+            :}
+
 ;
 
 listaparametros::=
-    variables tipodato listaparametros2
-    |variables tipodato
-;
+    variables:a tipodato:b listaparametros2:c
+             {:  Nodo nd = new Nodo();
+              nd.setEtiqueta ("listaparametros");
+              nd.setId(parser.cont++);
+              RESULT = nd;
+            :}
+
+    |variables:a tipodato:b
+              {:  Nodo nd = new Nodo();
+              nd.setEtiqueta ("listaparametros");
+              nd.setId(parser.cont++);
+              RESULT = nd;
+            :};
+
+
 
 listaparametros2::=
-    S_COMA variables tipodato listaparametros2
-    |S_COMA variables tipodato
+    S_COMA variables:a tipodato:b listaparametros2:c
+             {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("listaparametros2");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("S_COMA");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            nd.AddHijos((Nodo) b);
+            nd.AddHijos((Nodo) c);
+            RESULT = nd;
+            :}
+
+    |S_COMA variables:a tipodato:b
+             {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("listaparametros2");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("S_COMA");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+            :}
 ;
 
 tipodato::=
-    STRING
-    |CHAR
-    |ENTERO
-    |DOUBLE
-    |PR_BOOL
+    STRING:a
+         {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("tipodato");
+            Nodo n1 = new Nodo(); n1.setEtiqueta("STRING");
+            n1.setId(parser.cont++);
+           RESULT = nd;
+         :}
+
+    |CHAR:a
+         {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("tipodato");
+            RESULT = nd;
+         :}
+
+    |ENTERO:a
+         {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("tipodato");
+           RESULT = nd;
+         :}
+
+    |DOUBLE:a
+           {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("tipodato");
+            RESULT = nd;
+         :}
+
+    |PR_BOOL:a
+         {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("tipodato");
+            RESULT = nd;
+         :}
 ;
 
 funcion::=
-    PR_FUNCION variables:a tipodato:b instrucciones:d PR_FINFUNCION
+    PR_FUNCION variables:a tipodato:b instrucciones:c PR_FINFUNCION
+              {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("funcion");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_FUNCION");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            nd.AddHijos((Nodo) b);
+            nd.AddHijos((Nodo) c);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_FINFUNCION");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+            :}
+
     |PR_FUNCION variables:a tipodato:b PR_CONPARAMETROS PR_PARABRE listaparametros:c PR_PARCIERRA instrucciones:d PR_FINFUNCION
+             {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("funcion");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_FUNCION");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            nd.AddHijos((Nodo) b);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_CONPARAMETROS");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("PR_PARABRE");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            nd.AddHijos((Nodo) c);
+            Nodo n5 = new Nodo(); n5.setEtiqueta("PR_PARCIERRA");
+            n5.setId(parser.cont++);
+            nd.AddHijos(n5);
+            nd.AddHijos((Nodo) d);
+            Nodo n4 = new Nodo(); n4.setEtiqueta("PR_FIFUNCION");
+            n4.setId(parser.cont++);
+            nd.AddHijos(n4);
+            RESULT = nd;
+            :}
 ;
 
 llamada::=
     PR_EJECUTAR variables:a PR_PARABRE PR_PARCIERRA S_PUNTOYCOMA   {:System.out.println("Hizo llamada");:}
-    |PR_EJECUTAR variables:a PR_PARABRE listaparametros3 PR_PARCIERRA S_PUNTOYCOMA {:System.out.println("Hizo llamada");:}
+            
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("llamada");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_EJECUTAR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_PARABRE");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("PR_PARCIERRA");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            Nodo n4 = new Nodo(); n4.setEtiqueta("S_PUNTOYCOMA");
+            n4.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+            :}
+
+    |PR_EJECUTAR variables:a PR_PARABRE listaparametros3:b PR_PARCIERRA S_PUNTOYCOMA {:System.out.println("Hizo llamada");:}
+           {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("llamada");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_EJECUTAR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("PR_PARABRE");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            nd.AddHijos((Nodo) b);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("PR_PARCIERRA");
+            n3.setId(parser.cont++);
+            nd.AddHijos(n3);
+            Nodo n4 = new Nodo(); n4.setEtiqueta("S_PUNTOYCOMA");
+            n4.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+            :}
 ;
 
 listaparametros3::=
-variables listaparametros4
-|variables
+    variables:a listaparametros4:b
+         {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("listaparamentros3");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+            :}
+    
+    |variables:a
+        {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("listaparametros3");
+            nd.setId(parser.cont++);
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+         :}
 ;
 
 listaparametros4::=
-S_COMA variables listaparametros4
-|S_COMA variables
+    S_COMA variables:a listaparametros4:b
+           {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("listaparametros4");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("S_COMA");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            nd.AddHijos((Nodo) b);
+            RESULT = nd;
+         :}
+
+    |S_COMA variables:a
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("listaparametros4");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("S_COMA");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            RESULT = nd;
+         :}
 ;
 
 imprimir::=
-    PR_IMPRIMIR STRING S_PUNTOYCOMA {:System.out.println("Imprimio string ");:}
-    |PR_IMPRIMIR expresion_num S_PUNTOYCOMA  {:System.out.println("imprimio numerica");:}
-    |PR_IMPRIMIR expresion_logica S_PUNTOYCOMA  {:System.out.println("imprimio logica ");:}
-    |PR_IMPRIMIR expresion_char S_PUNTOYCOMA    {:System.out.println("imprimio char");:}
+    PR_IMPRIMIR STRING:a S_PUNTOYCOMA {:System.out.println("Imprimio string ");:}
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("imprimir");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_IMPRIMIR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("STRING");
+            n3.setId(parser.cont++);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_PUNTOYCOMA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+         :}
+        
+    |PR_IMPRIMIR expresion_num:a S_PUNTOYCOMA  {:System.out.println("imprimio numerica");:}
+         {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("imprimir");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_IMPRIMIR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_PUNTOYCOMA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+         :}
+    |PR_IMPRIMIR expresion_logica:a S_PUNTOYCOMA  {:System.out.println("imprimio logica ");:}
+             {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("imprimir");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_IMPRIMIR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_PUNTOYCOMA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+         :}
+    |PR_IMPRIMIR expresion_char:a S_PUNTOYCOMA    {:System.out.println("imprimio char");:}
+             {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("imprimir");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_IMPRIMIR");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_PUNTOYCOMA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+         :}
 ;
 
 imprimirnl::=
-    PR_IMPRIMIRNL STRING S_PUNTOYCOMA {:System.out.println("Imprimionl string ");:}
-    |PR_IMPRIMIRNL expresion_num S_PUNTOYCOMA  {:System.out.println("Imprimionl numero ");:}
-    |PR_IMPRIMIRNL expresion_logica S_PUNTOYCOMA {:System.out.println("Imprimionl logica ");:}
-    |PR_IMPRIMIRNL expresion_char S_PUNTOYCOMA   {:System.out.println("Imprimioln char ");:}
+    PR_IMPRIMIRNL STRING:a S_PUNTOYCOMA {:System.out.println("Imprimionl string ");:}
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("imprimirnl");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_IMPRIMIRNL");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            Nodo n3 = new Nodo(); n3.setEtiqueta("STRING");
+            n3.setId(parser.cont++);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_PUNTOYCOMA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+         :}
+
+    |PR_IMPRIMIRNL expresion_num:a S_PUNTOYCOMA  {:System.out.println("Imprimionl numero ");:}
+            
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("imprimirnl");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_IMPRIMIRNL");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_PUNTOYCOMA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+         :}
+
+    |PR_IMPRIMIRNL expresion_logica:a S_PUNTOYCOMA {:System.out.println("Imprimionl logica ");:}
+           
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("imprimirnl");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_IMPRIMIRNL");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_PUNTOYCOMA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+         :}
+    |PR_IMPRIMIRNL expresion_char:a S_PUNTOYCOMA   {:System.out.println("Imprimioln char ");:}
+         
+            {:  Nodo nd = new Nodo();
+            nd.setEtiqueta ("imprimirnl");
+            nd.setId(parser.cont++);
+            Nodo n1 = new Nodo(); n1.setEtiqueta("PR_IMPRIMIRNL");
+            n1.setId(parser.cont++);
+            nd.AddHijos(n1);
+            nd.AddHijos((Nodo) a);
+            Nodo n2 = new Nodo(); n2.setEtiqueta("S_PUNTOYCOMA");
+            n2.setId(parser.cont++);
+            nd.AddHijos(n2);
+            RESULT = nd;
+         :}
+        
 ;
 
 
